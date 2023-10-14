@@ -1,15 +1,13 @@
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.metrics.pairwise import cosine_similarity
 
-# Sample data: user interactions with posts (post_title, post_content)
-user_interactions = [
+posts_visited = [
     ("Integration", "Integration is an important part of calculus, forming a strong foundation for the subject with a variety of intricacies."),
     ("Coffee","Coffee is a very good liquid for consumption, providing lots of energy at a relatively low cost."),
     ("Trains","I like trains.")
 ]
 
-# Extract posts user has looked at
-user_posts = [" ".join([title, content]) for (title, content) in user_interactions]
+user_posts = [" ".join([title, content]) for (title, content) in posts_visited]
 
 # Titles and content of all posts
 total_posts = [
@@ -32,8 +30,8 @@ cosine_similarities = cosine_similarity(user_post_vectors, post_vectors)
 
 # Get indices of recommended posts (excluding already seen posts)
 recommended_post_indices = cosine_similarities.argsort()[0][::-1]
-filtered_indices = [i for i in recommended_post_indices if i < len(user_interactions) and i not in user_posts]
-recommended_posts = [(user_interactions[i][0], user_interactions[i][1]) for i in filtered_indices if i not in user_posts]
+filtered_indices = [i for i in recommended_post_indices if i < len(posts_visited) and i not in user_posts]
+recommended_posts = [(posts_visited[i][0], posts_visited[i][1]) for i in filtered_indices if i not in user_posts]
 
 # Print recommended posts
 print("Recommended Posts:")
